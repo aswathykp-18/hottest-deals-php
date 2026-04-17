@@ -2,11 +2,13 @@
 require_once '../config/database.php';
 
 if (!isset($_SESSION['admin_logged_in']) || !$_SESSION['admin_logged_in']) {
-    header('Location: login.php');
+    $base = defined('BASE_URL') ? BASE_URL : '/';
+    header('Location: ' . $base . 'admin/login.php');
     exit;
 }
 
 $conn = getDbConnection();
+$base = defined('BASE_URL') ? BASE_URL : '/';
 
 // Handle delete
 if (isset($_GET['delete'])) {
@@ -14,7 +16,7 @@ if (isset($_GET['delete'])) {
     $stmt = $conn->prepare("DELETE FROM hottest_deals WHERE id = ?");
     $stmt->bind_param('i', $id);
     $stmt->execute();
-    header('Location: dashboard.php?msg=deleted');
+    header('Location: ' . $base . 'admin/dashboard.php?msg=deleted');
     exit;
 }
 
@@ -24,7 +26,7 @@ if (isset($_GET['toggle'])) {
     $stmt = $conn->prepare("UPDATE hottest_deals SET is_active = NOT is_active WHERE id = ?");
     $stmt->bind_param('i', $id);
     $stmt->execute();
-    header('Location: dashboard.php?msg=updated');
+    header('Location: ' . $base . 'admin/dashboard.php?msg=updated');
     exit;
 }
 
@@ -42,9 +44,9 @@ include '../includes/header.php';
             <p class="subtitle">Manage all property deals</p>
         </div>
         <div class="admin-actions">
-            <a href="add.php" class="btn btn-success"><i class="fas fa-plus"></i> Add New Deal</a>
-            <a href="export_excel.php" class="btn btn-info"><i class="fas fa-file-excel"></i> Export Excel</a>
-            <a href="export_pdf.php" class="btn btn-warning"><i class="fas fa-file-pdf"></i> Export PDF</a>
+            <a href="<?php echo $base; ?>admin/add.php" class="btn btn-success"><i class="fas fa-plus"></i> Add New Deal</a>
+            <a href="<?php echo $base; ?>admin/export_excel.php" class="btn btn-info"><i class="fas fa-file-excel"></i> Export Excel</a>
+            <a href="<?php echo $base; ?>admin/export_pdf.php" class="btn btn-warning"><i class="fas fa-file-pdf"></i> Export PDF</a>
         </div>
     </div>
     
@@ -98,13 +100,13 @@ include '../includes/header.php';
                             </span>
                         </td>
                         <td class="action-buttons">
-                            <a href="edit.php?id=<?php echo $deal['id']; ?>" class="btn-icon btn-edit" title="Edit">
+                            <a href="<?php echo $base; ?>admin/edit.php?id=<?php echo $deal['id']; ?>" class="btn-icon btn-edit" title="Edit">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <a href="?toggle=<?php echo $deal['id']; ?>" class="btn-icon btn-toggle" title="Toggle Active" onclick="return confirm('Toggle active status?')">
+                            <a href="<?php echo $base; ?>admin/dashboard.php?toggle=<?php echo $deal['id']; ?>" class="btn-icon btn-toggle" title="Toggle Active" onclick="return confirm('Toggle active status?')">
                                 <i class="fas fa-toggle-on"></i>
                             </a>
-                            <a href="?delete=<?php echo $deal['id']; ?>" class="btn-icon btn-delete" title="Delete" onclick="return confirm('Are you sure you want to delete this deal?')">
+                            <a href="<?php echo $base; ?>admin/dashboard.php?delete=<?php echo $deal['id']; ?>" class="btn-icon btn-delete" title="Delete" onclick="return confirm('Are you sure you want to delete this deal?')">
                                 <i class="fas fa-trash"></i>
                             </a>
                         </td>

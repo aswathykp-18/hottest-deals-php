@@ -9,7 +9,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($username === 'admin' && $password === 'admin123') {
         $_SESSION['admin_logged_in'] = true;
         $_SESSION['admin_username'] = $username;
-        header('Location: dashboard.php');
+        $base = defined('BASE_URL') ? BASE_URL : '/';
+        header('Location: ' . $base . 'admin/dashboard.php');
         exit;
     } else {
         $error = 'Invalid credentials. Please try again.';
@@ -17,7 +18,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in']) {
-    header('Location: dashboard.php');
+    $base = defined('BASE_URL') ? BASE_URL : '/';
+    header('Location: ' . $base . 'admin/dashboard.php');
     exit;
 }
 

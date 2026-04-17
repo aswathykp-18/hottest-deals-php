@@ -2,15 +2,17 @@
 require_once '../config/database.php';
 
 if (!isset($_SESSION['admin_logged_in']) || !$_SESSION['admin_logged_in']) {
-    header('Location: login.php');
+    $base = defined('BASE_URL') ? BASE_URL : '/';
+    header('Location: ' . $base . 'admin/login.php');
     exit;
 }
 
 $conn = getDbConnection();
+$base = defined('BASE_URL') ? BASE_URL : '/';
 $id = intval($_GET['id'] ?? 0);
 
 if ($id <= 0) {
-    header('Location: dashboard.php');
+    header('Location: ' . $base . 'admin/dashboard.php');
     exit;
 }
 
@@ -34,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt->bind_param('sssssssddssiii', $agent_name, $area, $project_name, $unit, $property_type, $op_text, $sp_text, $op_amount, $sp_amount, $payout, $status_text, $display_order, $is_active, $id);
     
     if ($stmt->execute()) {
-        header('Location: dashboard.php?msg=updated');
+        header('Location: ' . $base . 'admin/dashboard.php?msg=updated');
         exit;
     } else {
         $error = 'Error updating deal: ' . $conn->error;
@@ -49,7 +51,7 @@ $result = $stmt->get_result();
 $deal = $result->fetch_assoc();
 
 if (!$deal) {
-    header('Location: dashboard.php');
+    header('Location: ' . $base . 'admin/dashboard.php');
     exit;
 }
 
@@ -60,7 +62,7 @@ include '../includes/header.php';
 <div class="container">
     <div class="form-header">
         <h1><i class="fas fa-edit"></i> Edit Property Deal</h1>
-        <a href="dashboard.php" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+        <a href="<?php echo $base; ?>admin/dashboard.php" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
     </div>
     
     <?php if (isset($error)): ?>
@@ -149,7 +151,7 @@ include '../includes/header.php';
         
         <div class="form-actions">
             <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Update Deal</button>
-            <a href="dashboard.php" class="btn btn-secondary">Cancel</a>
+            <a href="<?php echo $base; ?>admin/dashboard.php" class="btn btn-secondary">Cancel</a>
         </div>
     </form>
 </div>

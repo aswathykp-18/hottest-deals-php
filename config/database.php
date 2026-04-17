@@ -16,6 +16,10 @@ function getDbConnection() {
     return $conn;
 }
 
+// Base URL - Change this to match your installation path
+// For root: '/'   For subdirectory: '/hottest-deals-php-main/'
+define('BASE_URL', '/hottest-deals-php-main/');
+
 // Session configuration
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
