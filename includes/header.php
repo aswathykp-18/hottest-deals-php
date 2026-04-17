@@ -79,6 +79,10 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
                     <i class="fas fa-chart-bar"></i>
                     <span>Analytics</span>
                 </a>
+                <a href="<?php echo $base; ?>webhook-logs.php" class="nav-item <?php echo $current_page == 'webhook-logs' ? 'active' : ''; ?>">
+                    <i class="fas fa-satellite-dish"></i>
+                    <span>Webhook Logs</span>
+                </a>
             </nav>
 
             <div class="sidebar-footer">

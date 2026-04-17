@@ -160,6 +160,20 @@ CREATE TABLE IF NOT EXISTS analytics_events (
     INDEX idx_created_at (created_at)
 ) ENGINE=InnoDB;
 
+-- Webhook Logs
+CREATE TABLE IF NOT EXISTS webhook_logs (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    event_type VARCHAR(50) NOT NULL,
+    payload TEXT,
+    response TEXT,
+    status ENUM('success','failed') DEFAULT 'success',
+    ip_address VARCHAR(45),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_wh_event_type (event_type),
+    INDEX idx_wh_status (status),
+    INDEX idx_wh_created_at (created_at)
+) ENGINE=InnoDB;
+
 -- Insert default admin user (password: admin123)
 INSERT INTO users (username, password, full_name, email, role) VALUES
 ('admin', '$2y$10$lLRUgG5UMQFBB0uP4HqA0e7lCubnRiYJG1urwjPoPOp.D/oMc1pU6', 'Administrator', 'admin@example.com', 'admin');
