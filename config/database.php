@@ -8,7 +8,14 @@ define('DB_NAME', 'whatsapp_platform');
 // Application Configuration
 define('APP_NAME', 'WhatsApp Marketing Platform');
 define('APP_VERSION', '1.0.0');
-define('BASE_URL', '/wa-platform/');
+
+// Auto-detect BASE_URL from folder path
+$script_dir = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME']));
+// Remove /config, /includes, /api, /admin subfolders from path
+$base_dir = preg_replace('#/(config|includes|api|admin)$#', '', $script_dir);
+if ($base_dir === '') $base_dir = '/';
+if (substr($base_dir, -1) !== '/') $base_dir .= '/';
+define('BASE_URL', $base_dir);
 
 // WhatsApp API Configuration (Mock Mode)
 define('WA_API_MODE', 'mock'); // 'mock' or 'live'
